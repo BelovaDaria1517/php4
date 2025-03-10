@@ -1,13 +1,47 @@
 <?php
-function mostRecent($text) {
-    $text = substr($text, 0, 1000); // Ограничиваем текст до 1000 символов
-    $words = str_word_count(strtolower($text), 1); // Разбиваем на слова
-    $wordCounts = array_count_values($words); // Считаем частоту слов
-    arsort($wordCounts); // Сортируем по убыванию частоты
-    return array_key_first($wordCounts); // Возвращаем самое частое слово
+$numbers = [];
+for ($i = 1; $i < 1000; $i++) {
+    $numbers[] = $i;
 }
-// Пример использования
-$text = "Привет, мир! Мир огромен, и мир прекрасен. Привет всем!";
-echo "Самое частое слово: " . (mostRecent($text) ?? "не найдено") . "\n";
+
+function proverka(array $numbers, callable $condition): array
+{
+    $result = [];
+    foreach ($numbers as $number) {
+        if ($condition($number)) {
+            $result[] = $number;
+        }
+    }
+    return $result;
+}
+$uslovieIdeala = function (int $number): bool {
+    $sumDelit = 1; 
+    for ($i = 2; $i <= $number / 2; $i++) {
+        if ($number % $i === 0) {
+            $sumDelit += $i;
+        }
+    }
+    return $number === $sumDelit && $number > 1;
+};
+$uslovieSover = function (int $number): bool {
+    $sumDelit = 0;
+    for ($i = 1; $i <= $number; $i++) {
+        if ($number % $i === 0) {
+            $sumDelit += $i;
+        }
+    }
+    $polSumDelit = $sumDelit / 2;
+    return $number === $polSumDelit;
+};
+echo "Идеальные числа:" . PHP_EOL;
+$idealChisla = proverka($numbers, $uslovieIdeala);
+foreach ($idealChisla as $number) {
+    echo $number . PHP_EOL;
+}
+echo "Совершенные числа:" . PHP_EOL;
+$soverChisla = proverka($numbers, $uslovieSover);
+foreach ($soverChisla as $number) {
+    echo $number . PHP_EOL;
+}
 
 
