@@ -1,11 +1,10 @@
 <?php
-function alphabeticalOrder($str) {
-    $chars = str_split($str);
-    natcasesort($chars); // Сортировка с учетом регистра
-    return implode('', $chars);
+$inputString = readline("Введите строку: ");
+$result = alphabeticalOrder($inputString);
+echo "Результат: $result\n";
+function alphabeticalOrder(string $inputString): string
+{
+    $characters = str_split($inputString);
+    sort($characters);
+    return implode('', $characters);
 }
-
-$input = 'Alphabetical';
-$result = alphabeticalOrder($input);
-echo $result; // Вывод: 'aAabcehillpt'
-
